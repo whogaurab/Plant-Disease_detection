@@ -1,8 +1,6 @@
-import sys
-from PlantDiseasedetection.exception import AppException
-try:
-     a  = 3/"s"
 
-except Exception as e:
-     
-     raise AppException(e, sys)
+from PlantDiseaseDetection.pipeline.training_pipeline import TrainPipeline
+
+obj =TrainPipeline()
+obj.run_pipeline()
+
