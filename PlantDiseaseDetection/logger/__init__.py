@@ -1,28 +1,20 @@
-import sys
+import logging
+import os
+from datetime import datetime
+from from_root import from_root
 
 
-def error_message_detail(error, error_detail: sys):
-    _, _, exc_tb = error_detail.exc_info()
-
-    file_name = exc_tb.tb_frame.f_code.co_filename
-
-    error_message = "Error occurred python script name [{0}] line number [{1}] error message [{2}]".format(
-        file_name, exc_tb.tb_lineno, str(error)
-    )
-
-    return error_message
+LOG_FILE = f"{datetime.now().strftime('%m_%d_%Y_%H_%M_%S')}.log"
 
 
-class AppException(Exception):
-    def __init__(self, error_message, error_detail):
-        """
-        :param error_message: error message in string format
-        """
-        super().__init__(error_message)
+log_path = os.path.join(from_root(), 'log', LOG_FILE)
 
-        self.error_message = error_message_detail(
-            error_message, error_detail=error_detail
-        )
+os.makedirs(log_path, exist_ok=True)
 
-    def __str__(self):
-        return self.error_message
+lOG_FILE_PATH = os.path.join(log_path, LOG_FILE)
+
+logging.basicConfig(
+    filename=lOG_FILE_PATH,
+    format= "[ %(asctime)s ] %(name)s - %(levelname)s - %(message)s",
+    level= logging.INFO
+)
