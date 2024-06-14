@@ -150,6 +150,7 @@ class ModelTrainer:
 
 
 
+<<<<<<< HEAD
             # os.system(f"cd yolov9/ && python train.py --workers 8  --batch {self.model_trainer_config.batch_size} --img 640  --epochs {self.model_trainer_config.no_epochs} --data ../data.yaml --weights {self.model_trainer_config.weight_name} --device 0 --cfg .yolov9\models\detect\gelan-e.yaml  --hyp yolov9\data\hyps\hyp.scratch-high.yaml")
             subprocess.run([
 
@@ -195,6 +196,29 @@ class ModelTrainer:
             return model_trainer_artifact
 
 
+=======
+            # os.system(f"cd yolov9/ && python train.py --workers 8  --batch {self.model_trainer_config.batch_size} --img 640  --epochs {self.model_trainer_config.no_epochs} --data ../data.yaml --weights {self.model_trainer_config.weight_name} --device 0 --cfg .yolov9\models\detect\gelan-e.yaml  --hyp yolov9\data\hyps\hyp.scratch-high.yaml")
+            # os.system("cp yolov9/runs/train/weights/best.pt yolov9/")
+            # os.makedirs(self.model_trainer_config.model_trainer_dir, exist_ok=True)
+            # os.system(f"cp yolov5/runs/train/weights/best.pt {self.model_trainer_config.model_trainer_dir}/")
+           
+            # os.remove("yolov9/runs")
+            # os.remove("train")
+            # os.remove("valid")
+            # os.remove("test")
+            # os.remove("data.yaml")
+
+            # model_trainer_artifact = ModelTrainerArtifact(
+            #     trained_model_file_path="yolov9/best.pt",
+            # )
+
+            # logging.info("Exited initiate_model_trainer method of ModelTrainer class")
+            # logging.info(f"Model trainer artifact: {model_trainer_artifact}")
+
+            # return model_trainer_artifact
+
+
+>>>>>>> acec01ae3953721ad173c33793bbc2f8e93e999d
         except Exception as e:
             raise AppException(e, sys)
 
