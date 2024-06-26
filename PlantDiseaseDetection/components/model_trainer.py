@@ -14,98 +14,8 @@ class ModelTrainer:
     def __init__(
         self,
         model_trainer_config: ModelTrainerConfig,
-    ):
+        ):
         self.model_trainer_config = model_trainer_config
-
-
-
-# class ModelTrainer:
-#     def initiate_model_trainer(self) -> ModelTrainerArtifact:
-#         logging.info("Entered initiate_model_trainer method of ModelTrainer class")
-
-#         try:
-#             logging.info("Unzipping data")
-
-#             with zipfile.ZipFile('data.zip', 'r') as zip_ref:
-#                 zip_ref.extractall()
-
-#             file_to_remove = "data.zip"
-#             try:
-#                 os.remove(file_to_remove)
-#                 print(f"File '{file_to_remove}' deleted successfully.")
-#                 logging.info(f"File '{file_to_remove}' deleted successfully.")
-#             except Exception as e:
-#                 print(f"File '{file_to_remove}' not found.")
-#                 raise AppException(e, sys)
-
-#             with open('data.yaml', 'r') as stream:
-#                 num_classes = str(yaml.safe_load(stream)['nc'])
-
-#             model_config_file_name = self.model_trainer_config.weight_name.split(".")[0]
-#             print(model_config_file_name)
-
-#             config = read_yaml_file(f"yolov9/models/detect/{model_config_file_name}.yaml")
-#             config['nc'] = int(num_classes)
-
-#             with open(f'yolov9/models/detect/custom_{model_config_file_name}.yaml', 'w') as f:
-#                 yaml.dump(config, f)
-
-#             # Run YOLOv9 training using subprocess
-            # subprocess.run([
-
-
-            #     "--batch", "16",
-            #     "--epochs", "100",
-            #     "--img", "640",
-            #     "--device", "0",
-            #     "--min-items", "0",
-            #     "--close-mosaic", "15",
-            #     "--data", "../data.yaml",
-            #     "--weights", "/yolov9/weights/gelan-c.pt",
-            #     "--cfg", "/yolov9/models/detect/gelan-c.yaml",
-            #     "--hyp", "/yolov9/data/hyps/hyp.scratch-high.yaml"
-
-
-
-            #     # "python", "train.py",
-                
-            #     # "--batch", str(self.model_trainer_config.batch_size),
-            #     # "--epochs", str(self.model_trainer_config.no_epochs),
-            #     # "--img", "640",
-            #     # "--device 0",
-            #     # "--min-items 0",
-            #     # "--close-mosaic 15",
-            #     # "--data", "../data.yaml",
-            #     # "--weights", self.model_trainer_config.weight_name,
-            #     # "--device", "0",
-            #     # "--cfg", ".yolov9/models/detect/gelan-e.yaml",
-            #     # "--hyp", "yolov9/data/hyps/hyp.scratch-high.yaml"
-            # ], cwd="yolov9/")
-
-#             # Copy best weights
-#             subprocess.run(["cp", "yolov9/runs/train/weights/best.pt", "yolov9/"])
-#             os.makedirs(self.model_trainer_config.model_trainer_dir, exist_ok=True)
-#             subprocess.run(["cp", "yolov9/runs/train/weights/best.pt", f"{self.model_trainer_config.model_trainer_dir}/"])
-
-#             # Clean up intermediate files
-#             os.remove("yolov9/runs")
-#             os.remove("train")
-#             os.remove("valid")
-#             os.remove("test")
-#             os.remove("data.yaml")
-
-#             model_trainer_artifact = ModelTrainerArtifact(
-#                 trained_model_file_path="yolov9/best.pt",
-#             )
-
-#             logging.info("Exited initiate_model_trainer method of ModelTrainer class")
-#             logging.info(f"Model trainer artifact: {model_trainer_artifact}")
-
-#             return model_trainer_artifact
-
-#         except Exception as e:
-#             raise AppException(e, sys)
-
 
 
     def initiate_model_trainer(self,) -> ModelTrainerArtifact:
@@ -127,6 +37,24 @@ class ModelTrainer:
 
             except Exception as e:
                 raise AppException(e, sys)
+            
+            file_name="README.dataset.txt"
+            try:
+                os.remove(file_name)
+                print(f"{file_name} removed sucessfully")
+                logging.info("file removed sucessfully")
+
+            except Exception as e:
+                raise AppException(e, sys)
+
+            file_name="README.roboflow.txt"
+            try:
+                os.remove(file_name)
+                print(f"{file_name} removed sucessfully")
+                logging.info("file removed sucessfully")
+
+            except Exception as e:
+                raise AppException(e, sys)
 
 
             with open("data.yaml", 'r') as stream:
@@ -134,13 +62,15 @@ class ModelTrainer:
 
             model_config_file_name = self.model_trainer_config.weight_name.split(".")[0]
             print(model_config_file_name)
+            
+            #code is right till here"
 
-            config = read_yaml_file(f"yolov9/models/detect/{model_config_file_name}.yaml")
-
+            config = read_yaml_file("yolov9\models\detect\gelan-c.yaml")
+# C:\Plant-Disease_detection\yolov9\models\detect\gelan-c.yaml
             config['nc'] = int(num_classes)
 
 
-            with open(f'yolov9/models/detect/custom_{model_config_file_name}.yaml', 'w') as f:
+            with open("yolov9\models\detect\gelan-c.yaml", 'w') as f:
                 yaml.dump(config, f)
 
 
@@ -150,41 +80,16 @@ class ModelTrainer:
 
 
 
-<<<<<<< HEAD
-            # os.system(f"cd yolov9/ && python train.py --workers 8  --batch {self.model_trainer_config.batch_size} --img 640  --epochs {self.model_trainer_config.no_epochs} --data ../data.yaml --weights {self.model_trainer_config.weight_name} --device 0 --cfg .yolov9\models\detect\gelan-e.yaml  --hyp yolov9\data\hyps\hyp.scratch-high.yaml")
-            subprocess.run([
-
-
-                "--batch",  {self.model_trainer_config.batch_size},
-                "--epochs", {self.model_trainer_config.no_epochs},
-                "--img", "640",
-                "--device", "0",
-                "--min-items", "0",
-                "--close-mosaic", "15",
-                "--data", "../data.yaml",
-                "--weights", {self.model_trainer_config.weight_name},
-                "--cfg", "/yolov9/models/detect/gelan-c.yaml",
-                "--hyp", "/yolov9/data/hyps/hyp.scratch-high.yaml"
-                ], cwd="yolov9/")
-            
-            subprocess.run(["cp", "yolov9/runs/train/weights/exp/best.pt", "yolov9/"])
+            os.system(f"cd yolov9/ && python train.py --workers 8  --batch {self.model_trainer_config.batch_size} --img 640  --epochs {self.model_trainer_config.no_epochs} --data ../data.yaml --weights {self.model_trainer_config.weight_name} --device 0 --cfg .yolov9\models\detect\gelan-e.yaml  --hyp yolov9\data\hyps\hyp.scratch-high.yaml")
+            os.system("cp yolov9/runs/train/weights/best.pt yolov9/")
             os.makedirs(self.model_trainer_config.model_trainer_dir, exist_ok=True)
-            subprocess.run(f"cp yolov9/runs/train/weights/exp/best.pt {self.model_trainer_config.model_trainer_dir}/")
-            remove_run = "yolov9/runs"
-            os.remove(remove_run)
-            remove_train = "train"
-            os.remove(remove_train)
-            remove_valid = "valid"
-            os.remove(remove_valid)
-            remove_test = "test"
-            os.remove(remove_test)
-            remove_yaml = "data.yaml"
-            os.remove(remove_yaml)
-            remove_txt = "Plant-Disease_detection\README.roboflow.txt"
-            os.remove(remove_txt)
-
-
-
+            os.system(f"cp yolov9/runs/train/weights/best.pt {self.model_trainer_config.model_trainer_dir}/")
+           
+            os.remove("yolov9/runs")
+            os.remove("train")
+            os.remove("valid")
+            os.remove("test")
+            os.remove("data.yaml")
 
             model_trainer_artifact = ModelTrainerArtifact(
                 trained_model_file_path="yolov9/best.pt",
@@ -196,29 +101,6 @@ class ModelTrainer:
             return model_trainer_artifact
 
 
-=======
-            # os.system(f"cd yolov9/ && python train.py --workers 8  --batch {self.model_trainer_config.batch_size} --img 640  --epochs {self.model_trainer_config.no_epochs} --data ../data.yaml --weights {self.model_trainer_config.weight_name} --device 0 --cfg .yolov9\models\detect\gelan-e.yaml  --hyp yolov9\data\hyps\hyp.scratch-high.yaml")
-            # os.system("cp yolov9/runs/train/weights/best.pt yolov9/")
-            # os.makedirs(self.model_trainer_config.model_trainer_dir, exist_ok=True)
-            # os.system(f"cp yolov5/runs/train/weights/best.pt {self.model_trainer_config.model_trainer_dir}/")
-           
-            # os.remove("yolov9/runs")
-            # os.remove("train")
-            # os.remove("valid")
-            # os.remove("test")
-            # os.remove("data.yaml")
-
-            # model_trainer_artifact = ModelTrainerArtifact(
-            #     trained_model_file_path="yolov9/best.pt",
-            # )
-
-            # logging.info("Exited initiate_model_trainer method of ModelTrainer class")
-            # logging.info(f"Model trainer artifact: {model_trainer_artifact}")
-
-            # return model_trainer_artifact
-
-
->>>>>>> acec01ae3953721ad173c33793bbc2f8e93e999d
         except Exception as e:
             raise AppException(e, sys)
 
